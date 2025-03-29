@@ -1,0 +1,72 @@
+{
+    "info": {
+      "name": "GenAI Query API v1",
+      "description": "Complete API collection for GenAI Query Service",
+      "version": "1.0.0",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5000",
+        "type": "string"
+      },
+      {
+        "key": "apiKey",
+        "value": "your_api_key_here",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "Query Processing",
+        "item": [
+          {
+            "name": "Process Natural Language Query",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{apiKey}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"query\": \"count all users\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/query",
+                "host": ["{{baseUrl}}"],
+                "path": ["query"]
+              }
+            },
+            "response": []
+          }
+        ]
+      }
+    ],
+    "event": [
+      {
+        "listen": "test",
+        "script": {
+          "exec": [
+            "pm.test(\"Status code is 200\", function () {",
+            "    pm.response.to.have.status(200);",
+            "});",
+            "",
+            "pm.test(\"Response has valid structure\", function () {",
+            "    var jsonData = pm.response.json();",
+            "    pm.expect(jsonData).to.have.property(\"sql\");",
+            "    pm.expect(jsonData).to.have.property(\"valid\");",
+            "});"
+          ],
+          "type": "text/javascript"
+        }
+      }
+    ]
+  }
